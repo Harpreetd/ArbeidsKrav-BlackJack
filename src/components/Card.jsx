@@ -12,13 +12,3 @@ const Card = (props) => {
 };
 
 export default Card;
-
-// {
-//   studentsList.map((student, index) => (
-//     <Student
-//       key={index}
-//       currentStudent={student}
-//       clickableBtn={() => setChosenStudent(student)}
-//     />
-//   ));
-// }

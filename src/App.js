@@ -6,21 +6,30 @@ import Card from "../src/components/Card.jsx";
 function App() {
   // getting a shuffled deck
   const [shuffleDeck, setShuffleDeck] = useDeck();
-  console.log(shuffleDeck);
 
   // one card to dealer
   const [dealerCards, setDealerCards] = useState([]);
-  console.log("Dealers initial cards", dealerCards);
+
+  // two carsd to Player
+  const [playerCards, setPlayerCards] = useState([]);
+  console.log("player cards before start" + playerCards);
   useEffect(() => {
     console.log(shuffleDeck);
-    console.log("Dealer cards", dealerCards);
-  });
+  }, []);
 
+  useEffect(() => {
+    console.log("Dealer cards", dealerCards);
+  }, [dealerCards]);
+
+  useEffect(() => {
+    console.log("Player cards", playerCards);
+  }, [playerCards]);
   // onClick function on Start game Button
   const startGame = () => {
     console.log("Starting game...");
     // console.log(shuffleDeck);
     setDealerCards((prev) => [...prev, shuffleDeck.splice(0, 1)]);
+    setPlayerCards((prev) => [...prev, shuffleDeck.splice(0, 2)]);
   };
   return (
     <div className="App">
@@ -31,6 +40,11 @@ function App() {
         ))}
       </div>
       <button onClick={startGame}>Start Game</button>
+      <div className="player-cards">
+        {playerCards.map((card, index) => (
+          <Card key={index} currentCard={card} />
+        ))}
+      </div>
     </div>
   );
 }

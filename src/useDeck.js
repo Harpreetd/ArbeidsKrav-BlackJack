@@ -7,7 +7,6 @@ export function useDeck() {
     if (randomCard) {
       shuffle();
     }
-    console.log(randomCard);
   }, []);
   const shuffle = () => {
     for (let i = 0; i < 52; i++) {

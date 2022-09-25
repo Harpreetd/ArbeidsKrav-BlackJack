@@ -14,6 +14,10 @@ function App() {
   // two carsd to Player
   const [playerCards, setPlayerCards] = useState([]);
   console.log("player cards before start" + playerCards);
+
+  // score for player
+  const [playerScore, setPlayerScore] = useState(0);
+
   useEffect(() => {
     console.log(shuffleDeck);
   }, []);
@@ -25,6 +29,17 @@ function App() {
   useEffect(() => {
     console.log("Player cards", playerCards);
   }, [playerCards]);
+
+  // updating player score
+  useEffect(() => {
+    let newScore = playerCards.map((card, i) => {
+      return card.cardValue;
+    });
+    console.log("Score", newScore);
+    setPlayerScore((prev) => [prev, 1]);
+    console.log("player score updated", playerScore);
+  }, [playerCards]);
+
   // onClick function on Start game Button
   const startGame = () => {
     console.log("Starting game...");
@@ -45,7 +60,7 @@ function App() {
         {playerCards.map((card, index) => (
           <Card key={index} currentCard={card} />
         ))}
-        <Score currentScore={"10"} />
+        <Score currentScore={playerScore} />
       </div>
     </div>
   );

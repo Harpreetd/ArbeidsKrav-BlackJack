@@ -70,11 +70,17 @@ function App() {
         setTimeout(() => {
           setDealerCards((prev) => [...prev, ...shuffleDeck.splice(0, 1)]);
         }, 600);
-        if (
-          (dealerScore <= 21 && dealerScore >= playerScore) ||
-          dealerScore === playerScore
-        ) {
+      }
+      if (dealerScore <= 21 && dealerScore >= 17) {
+        if (dealerScore > playerScore) {
+          console.log("Dealer wins");
           alert("Dealer Wins");
+        }
+        if (dealerScore < playerScore) {
+          alert("Player Wins");
+        }
+        if (dealerScore === playerScore) {
+          alert("It's a Tie");
         }
       }
     }

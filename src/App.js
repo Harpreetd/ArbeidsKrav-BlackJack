@@ -27,6 +27,9 @@ function App() {
   // state for count of Ace
   const [aceCount, setAceCount] = useState(0);
 
+  // state for playerBusted
+  const [isPlayerBusted, setIsPlayerBusted] = useState(false);
+
   useEffect(() => {
     console.log(shuffleDeck);
   }, []);
@@ -67,9 +70,23 @@ function App() {
         setTimeout(() => {
           setDealerCards((prev) => [...prev, ...shuffleDeck.splice(0, 1)]);
         }, 600);
+        if (
+          (dealerScore <= 21 && dealerScore >= playerScore) ||
+          dealerScore === playerScore
+        ) {
+          alert("Dealer Wins");
+        }
       }
     }
   }, [dealerTurn, dealerScore, playerScore]);
+
+  // updating isPlayerBusted
+  useEffect(() => {
+    if (playerScore > 21) {
+      alert("player Busted");
+      setIsPlayerBusted(true);
+    }
+  }, [playerScore]);
 
   // function for calculating the score
 

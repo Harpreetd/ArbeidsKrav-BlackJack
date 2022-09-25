@@ -28,8 +28,8 @@ function App() {
   const startGame = () => {
     console.log("Starting game...");
     // console.log(shuffleDeck);
-    setDealerCards((prev) => [...prev, shuffleDeck.splice(0, 1)]);
-    setPlayerCards((prev) => [...prev, shuffleDeck.splice(0, 2)]);
+    setDealerCards((prev) => [...prev, ...shuffleDeck.splice(0, 1)]);
+    setPlayerCards((prev) => [...prev, ...shuffleDeck.splice(0, 2)]);
   };
   return (
     <div className="App">

@@ -6,7 +6,8 @@ const Card = (props) => {
 
   return (
     <div>
-      <h1> {currentCard[0].cardName + "-" + currentCard[0].cardFace}</h1>
+      <h1> {currentCard.cardName + "-" + currentCard.cardFace}</h1>
+      <img src={currentCard.cardImage} />
     </div>
   );
 };

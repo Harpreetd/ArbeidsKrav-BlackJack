@@ -24,6 +24,9 @@ function App() {
   // state for dealers turn
   const [dealerTurn, setDealerTurn] = useState(false);
 
+  // state for count of Ace
+  const [aceCount, setAceCount] = useState(0);
+
   useEffect(() => {
     console.log(shuffleDeck);
   }, []);
@@ -65,12 +68,6 @@ function App() {
           setDealerCards((prev) => [...prev, ...shuffleDeck.splice(0, 1)]);
         }, 600);
       }
-
-      // while (dealerScore < 17) {
-      //   // console.log("still delaers turn");
-      //   setDealerCards((prev) => [...prev, ...shuffleDeck.splice(0, 1)]);
-      //   setDealerScore(getScore(dealerCards));
-      // }
     }
   }, [dealerTurn, dealerScore, playerScore]);
 
@@ -79,8 +76,15 @@ function App() {
   const getScore = (cardArray) => {
     let totalScore = 0;
     for (let i = 0; i < cardArray.length; i++) {
-      totalScore += cardArray[i].cardValue; // not working corractly for ACE card [11,1]
-      console.log("Score", totalScore);
+      if (cardArray[i].cardName === "A" && aceCount === 0) {
+        console.log(cardArray[i].cardValue[0]);
+        totalScore += cardArray[i].cardValue[0];
+      } else if (cardArray[i].cardName === "A" && aceCount !== 0) {
+        totalScore += cardArray[i].cardValue[1];
+      } else {
+        totalScore += cardArray[i].cardValue;
+        console.log("Score", totalScore);
+      }
     }
     return totalScore;
   };

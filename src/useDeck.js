@@ -18,24 +18,3 @@ export function useDeck() {
 
   return [randomCard, setRandomCard];
 }
-
-// using fetch to import deck.json not working as expected
-// const getDeck = () => {
-//   fetch("./Deck.json", {
-//     headers: {
-//       "Content-Type": "application/json",
-//       Accept: "application/json",
-//     },
-//   })
-//     .then(function (response) {
-//       console.log(response.data);
-//       return response.json();
-//     })
-//     .then(function (myJson) {
-//       console.log(JSON.parse(myJson));
-//       setNewDeck(JSON.parse(myJson));
-//     });
-// };
-// useEffect(() => {
-//   getDeck();
-// }, []);

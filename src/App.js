@@ -18,6 +18,9 @@ function App() {
   // score for player
   const [playerScore, setPlayerScore] = useState(0);
 
+  // Score for Dealer
+  const [dealerScore, setDealerScore] = useState(0);
+
   useEffect(() => {
     console.log(shuffleDeck);
   }, []);
@@ -37,16 +40,24 @@ function App() {
     });
     console.log("Score", newScore);
 
-    setPlayerScore(getScore());
+    setPlayerScore(getScore(playerCards));
     console.log("player score updated", playerScore);
   }, [playerCards]);
 
+  // updating Dealer's score
+  useEffect(() => {
+    let newScore = dealerCards.map((card, i) => {
+      return card.cardValue;
+    });
+    console.log("Score", newScore);
+    setDealerScore(getScore(dealerCards));
+  }, [dealerCards]);
   // function for calculating the score
 
-  const getScore = () => {
+  const getScore = (cardArray) => {
     let totalScore = 0;
-    for (let i = 0; i < playerCards.length; i++) {
-      totalScore += playerCards[i].cardValue;
+    for (let i = 0; i < cardArray.length; i++) {
+      totalScore += cardArray[i].cardValue; // not working corractly for ACE card [11,1]
       console.log("Score", totalScore);
     }
     return totalScore;
@@ -63,6 +74,7 @@ function App() {
     <div className="App">
       <h1>BlackJack</h1>
       <div className="dealer-cards">
+        <Score currentScore={dealerScore} />
         {dealerCards.map((card, index) => (
           <Card key={index} currentCard={card} />
         ))}

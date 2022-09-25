@@ -36,9 +36,21 @@ function App() {
       return card.cardValue;
     });
     console.log("Score", newScore);
-    setPlayerScore((prev) => [prev, 1]);
+
+    setPlayerScore(getScore());
     console.log("player score updated", playerScore);
   }, [playerCards]);
+
+  // function for calculating the score
+
+  const getScore = () => {
+    let totalScore = 0;
+    for (let i = 0; i < playerCards.length; i++) {
+      totalScore += playerCards[i].cardValue;
+      console.log("Score", totalScore);
+    }
+    return totalScore;
+  };
 
   // onClick function on Start game Button
   const startGame = () => {

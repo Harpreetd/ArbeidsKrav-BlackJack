@@ -3,6 +3,7 @@ import "./App.css";
 import { useDeck } from "./useDeck.js";
 import { useState, useEffect } from "react";
 import Card from "../src/components/Card.jsx";
+import Score from "../src/components/Score.jsx";
 function App() {
   // getting a shuffled deck
   const [shuffleDeck, setShuffleDeck] = useDeck();
@@ -44,6 +45,7 @@ function App() {
         {playerCards.map((card, index) => (
           <Card key={index} currentCard={card} />
         ))}
+        <Score currentScore={"10"} />
       </div>
     </div>
   );

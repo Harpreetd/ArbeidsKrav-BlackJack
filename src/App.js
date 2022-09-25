@@ -102,6 +102,7 @@ function App() {
       if (cardArray[i].cardName === "A" && aceCount === 0) {
         console.log(cardArray[i].cardValue[0]);
         totalScore += cardArray[i].cardValue[0];
+        setAceCount(aceCount + 1);
       } else if (cardArray[i].cardName === "A" && aceCount !== 0) {
         totalScore += cardArray[i].cardValue[1];
       } else {

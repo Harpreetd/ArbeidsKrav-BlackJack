@@ -60,8 +60,10 @@ function App() {
   useEffect(() => {
     if (dealerTurn === true) {
       console.log("this is dealers turn");
-      if (dealerScore < 17 && dealerScore < playerScore) {
-        setDealerCards((prev) => [...prev, ...shuffleDeck.splice(0, 1)]);
+      if (dealerScore < 17 || dealerScore < playerScore) {
+        setTimeout(() => {
+          setDealerCards((prev) => [...prev, ...shuffleDeck.splice(0, 1)]);
+        }, 600);
       }
 
       // while (dealerScore < 17) {

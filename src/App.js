@@ -60,8 +60,17 @@ function App() {
   useEffect(() => {
     if (dealerTurn === true) {
       console.log("this is dealers turn");
+      if (dealerScore < 17 && dealerScore < playerScore) {
+        setDealerCards((prev) => [...prev, ...shuffleDeck.splice(0, 1)]);
+      }
+
+      // while (dealerScore < 17) {
+      //   // console.log("still delaers turn");
+      //   setDealerCards((prev) => [...prev, ...shuffleDeck.splice(0, 1)]);
+      //   setDealerScore(getScore(dealerCards));
+      // }
     }
-  }, [dealerTurn]);
+  }, [dealerTurn, dealerScore, playerScore]);
 
   // function for calculating the score
 
@@ -86,6 +95,12 @@ function App() {
     console.log("Holding...");
     setDealerTurn(true);
   };
+  // onClick fucntion for HIT
+  const hit = () => {
+    console.log("Hitting...");
+    setPlayerCards((prev) => [...prev, ...shuffleDeck.splice(0, 1)]);
+  };
+
   return (
     <div className="App">
       <h1>BlackJack</h1>
@@ -97,6 +112,7 @@ function App() {
       </div>
       <button onClick={startGame}>Start Game</button>
       <button onClick={hold}>Hold</button>
+      <button onClick={hit}>Hit</button>
       <div className="player-cards">
         {playerCards.map((card, index) => (
           <Card key={index} currentCard={card} />

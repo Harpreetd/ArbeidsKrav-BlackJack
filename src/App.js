@@ -1,24 +1,35 @@
-import { useEffect } from "react";
 import "./App.css";
 // import deck from "./Deck.json";
 import { useDeck } from "./useDeck.js";
-// import { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
+import Card from "../src/components/Card.jsx";
 function App() {
+  // getting a shuffled deck
   const [shuffleDeck, setShuffleDeck] = useDeck();
   console.log(shuffleDeck);
 
+  // one card to dealer
+  const [dealerCards, setDealerCards] = useState([]);
+  console.log("Dealers initial cards", dealerCards);
   useEffect(() => {
     console.log(shuffleDeck);
+    console.log("Dealer cards", dealerCards);
   });
 
   // onClick function on Start game Button
   const startGame = () => {
     console.log("Starting game...");
-    console.log(shuffleDeck);
+    // console.log(shuffleDeck);
+    setDealerCards((prev) => [...prev, shuffleDeck.splice(0, 1)]);
   };
   return (
     <div className="App">
       <h1>BlackJack</h1>
+      <div className="dealer-cards">
+        {dealerCards.map((card, index) => (
+          <Card key={index} currentCard={card} />
+        ))}
+      </div>
       <button onClick={startGame}>Start Game</button>
     </div>
   );

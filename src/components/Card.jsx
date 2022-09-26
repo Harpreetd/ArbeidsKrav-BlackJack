@@ -12,7 +12,7 @@ const Card = (props) => {
       {/* <img src={imgSrc} /> */}
 
       <img src={require("../images/10-Diamonds.png")} className="cardImage" />
-      {/* wokring for a particular image */}
+      {/* wokring only for a particular image */}
     </div>
   );
 };

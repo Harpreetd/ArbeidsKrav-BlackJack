@@ -78,31 +78,24 @@ function App() {
       if (dealerScore < 21 && dealerScore >= 17) {
         if (dealerScore > playerScore) {
           setMessage("Dealer Wins!");
-          // alert("Dealer Wins");
-        }
-        if (dealerScore < playerScore && dealerScore < 21) {
-          setMessage("Player Wins!");
-          // alert("Player Wins");
+        } else if (dealerScore < playerScore && dealerScore < 21) {
+          setMessage("You Win!");
         }
         if (dealerScore === playerScore) {
-          setMessage("It's a Tie");
-          // alert("It's a Tie");
+          setMessage("It's a Tie!!!");
         }
       } else if (dealerScore > 21 && playerScore <= 21) {
         setMessage("Dealer Busted");
-        // alert("Dealer Busted");
       } else if (dealerScore === 21) {
         setMessage("Black Jack : DealerWins");
-        // alert("Blck Jack : DealerWins");
       }
     }
   }, [dealerTurn, dealerScore, playerScore]);
 
   // updating isPlayerBusted
   useEffect(() => {
-    if (playerScore > 21) {
-      setMessage("Player Busted!");
-      // alert("player Busted");
+    if (playerScore > 21 && !dealerTurn) {
+      setMessage("You Busted!");
       setIsPlayerBusted(true);
     } else if (playerScore === 21) {
       setMessage("Black Jack ");

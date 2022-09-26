@@ -30,8 +30,12 @@ function App() {
   // state for playerBusted
   const [isPlayerBusted, setIsPlayerBusted] = useState(false);
 
+  // state for winner or busted msg
+  const [message, setMessage] = useState("");
+
   useEffect(() => {
     console.log(shuffleDeck);
+    setAceCount(0);
   }, []);
 
   useEffect(() => {
@@ -68,7 +72,7 @@ function App() {
       console.log("this is dealers turn");
       if (dealerScore < 17 || dealerScore < playerScore) {
         setTimeout(() => {
-          setDealerCards((prev) => [...prev, ...shuffleDeck.splice(0, 1)]);
+          setDealerCards(dealCard(dealerCards));
         }, 600);
       }
       if (dealerScore <= 21 && dealerScore >= 17) {
@@ -82,6 +86,10 @@ function App() {
         if (dealerScore === playerScore) {
           alert("It's a Tie");
         }
+      } else if (dealerScore > 21) {
+        alert("Dealer Busted");
+      } else if (dealerScore === 21) {
+        alert("Blck Jack : DealerWins");
       }
     }
   }, [dealerTurn, dealerScore, playerScore]);
@@ -94,10 +102,18 @@ function App() {
     }
   }, [playerScore]);
 
+  //useEffect for dealer and player card to 0 if player or  dealer busted
+  useEffect(() => {
+    if (isPlayerBusted === true) {
+      setDealerCards([]);
+      setPlayerCards([]);
+    }
+  }, [isPlayerBusted]);
   // function for calculating the score
 
   const getScore = (cardArray) => {
     let totalScore = 0;
+
     for (let i = 0; i < cardArray.length; i++) {
       if (cardArray[i].cardName === "A" && aceCount === 0) {
         console.log(cardArray[i].cardValue[0]);
@@ -117,9 +133,15 @@ function App() {
   const startGame = () => {
     console.log("Starting game...");
     // console.log(shuffleDeck);
-    setDealerCards((prev) => [...prev, ...shuffleDeck.splice(0, 1)]);
+    // setDealerCards((prev) => [...prev, ...shuffleDeck.splice(0, 1)]);
+    setDealerCards(dealCard(dealerCards));
     setPlayerCards((prev) => [...prev, ...shuffleDeck.splice(0, 2)]);
   };
+  // function for dealing card
+  const dealCard = (cardArray) => {
+    return [...cardArray, ...shuffleDeck.splice(0, 1)];
+  };
+
   // onClick function for Hold Button
   const hold = () => {
     console.log("Holding...");
@@ -128,7 +150,7 @@ function App() {
   // onClick fucntion for HIT
   const hit = () => {
     console.log("Hitting...");
-    setPlayerCards((prev) => [...prev, ...shuffleDeck.splice(0, 1)]);
+    setPlayerCards(dealCard(playerCards));
   };
 
   return (

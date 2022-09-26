@@ -184,8 +184,8 @@ function App() {
           </p>
         </div>
       </div>
-      <div className="message">
-        <h1>{message}</h1>
+      <div>
+        <h1 className="neonText">{message}</h1>
       </div>
       <div className="buttonsInterface">
         <button onClick={startGame}>Start Game</button>

@@ -20,8 +20,17 @@ img {
 .dealer-cards,
 .player-cards {
   display: flex;
-  height: 300px;
+  height: 250px;
   width: 50%;
+}
+.cardImage {
+  box-shadow: 0 0 20px 5px #396ec8;
+  margin: 0 8px;
+
+  transition: all 0.2s ease-in-out;
+}
+.cardImage:hover {
+  transform: scale(1.1);
 }
 button {
   height: 40px;
@@ -32,6 +41,7 @@ button {
   border-radius: 5px;
   border: 3px solid #f33f8a;
   font-weight: bold;
+  opacity: 0.9;
 }
 button:hover {
   /* box-shadow: inset 0px 0px 15px #f33f8a; */
@@ -41,10 +51,45 @@ button:hover {
 .scoreHidden {
   display: none;
 }
-
+/* .message {
+  background-color: #fff;
+  opacity: 0.7;
+  color: #f33f8a;
+  width: 30%;
+  margin: auto;
+  /* padding: 10px; */
+/* border-radius: 5px; */
+/* border: 3px solid #f33f8a; */
+/* box-shadow: 0px 0px 5px 8px rgb(243, 63, 138, 0.2), inset 0px 0px 10px #f33f8a; */
+/* }  */
 .buttonsInterface {
   position: absolute;
   bottom: 0;
   width: 100%;
   margin: auto;
+}
+.neonText {
+  animation: flicker 1.5s infinite alternate;
+  color: #fff;
+  font-family: cursive;
+}
+
+/* Flickering animation */
+@keyframes flicker {
+  0%,
+  18%,
+  22%,
+  25%,
+  53%,
+  57%,
+  100% {
+    text-shadow: 0 0 4px #fff, 0 0 11px #fff, 0 0 19px #fff, 0 0 40px #396ec8,
+      0 0 80px #396ec8, 0 0 90px #396ec8, 0 0 100px #396ec8, 0 0 150px #396ec8;
+  }
+
+  20%,
+  24%,
+  55% {
+    text-shadow: none;
+  }
 }

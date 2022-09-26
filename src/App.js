@@ -141,9 +141,10 @@ function App() {
   const startGame = () => {
     console.log("Starting game...");
     // console.log(shuffleDeck);
-    // setDealerCards((prev) => [...prev, ...shuffleDeck.splice(0, 1)]);
-    setDealerCards(dealCard(dealerCards));
-    setPlayerCards((prev) => [...prev, ...shuffleDeck.splice(0, 2)]);
+    setDealerCards(() => [...shuffleDeck.splice(0, 1)]);
+    // setDealerCards(dealCard(dealerCards));
+    setPlayerCards(() => [...shuffleDeck.splice(0, 2)]);
+    setMessage("");
   };
   // function for dealing card
   const dealCard = (cardArray) => {

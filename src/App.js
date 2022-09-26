@@ -75,12 +75,12 @@ function App() {
           setDealerCards(dealCard(dealerCards));
         }, 600);
       }
-      if (dealerScore <= 21 && dealerScore >= 17) {
+      if (dealerScore < 21 && dealerScore >= 17) {
         if (dealerScore > playerScore) {
           setMessage("Dealer Wins!");
           // alert("Dealer Wins");
         }
-        if (dealerScore < playerScore) {
+        if (dealerScore < playerScore && dealerScore < 21) {
           setMessage("Player Wins!");
           // alert("Player Wins");
         }
@@ -88,7 +88,7 @@ function App() {
           setMessage("It's a Tie");
           // alert("It's a Tie");
         }
-      } else if (dealerScore > 21) {
+      } else if (dealerScore > 21 && playerScore <= 21) {
         setMessage("Dealer Busted");
         // alert("Dealer Busted");
       } else if (dealerScore === 21) {
@@ -145,6 +145,7 @@ function App() {
     // setDealerCards(dealCard(dealerCards));
     setPlayerCards(() => [...shuffleDeck.splice(0, 2)]);
     setMessage("");
+    setDealerTurn(false);
   };
   // function for dealing card
   const dealCard = (cardArray) => {
@@ -165,23 +166,31 @@ function App() {
   return (
     <div className="App">
       <h1>BlackJack</h1>
-      <div className="dealer-cards">
-        <Score currentScore={dealerScore} />
-        {dealerCards.map((card, index) => (
-          <Card key={index} currentCard={card} />
-        ))}
+      <div className="container">
+        <div className="dealer-cards">
+          <p className="scoreHidden">
+            <Score currentScore={dealerScore} />
+          </p>
+          {dealerCards.map((card, index) => (
+            <Card key={index} currentCard={card} />
+          ))}
+        </div>
+        <div className="player-cards">
+          {playerCards.map((card, index) => (
+            <Card key={index} currentCard={card} />
+          ))}
+          <p>
+            <Score currentScore={playerScore} />
+          </p>
+        </div>
       </div>
-      <button onClick={startGame}>Start Game</button>
-      <button onClick={hold}>Hold</button>
-      <button onClick={hit}>Hit</button>
       <div className="message">
         <h1>{message}</h1>
       </div>
-      <div className="player-cards">
-        {playerCards.map((card, index) => (
-          <Card key={index} currentCard={card} />
-        ))}
-        <Score currentScore={playerScore} />
+      <div className="buttonsInterface">
+        <button onClick={startGame}>Start Game</button>
+        <button onClick={hold}>Hold</button>
+        <button onClick={hit}>Hit</button>
       </div>
     </div>
   );

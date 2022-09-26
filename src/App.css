@@ -1,11 +1,50 @@
 .App {
   text-align: center;
+  background-image: url(/public/background.jpg);
+  background-size: cover;
+  background-position: center;
+  height: 100vh;
+  color: #fff;
 }
 img {
   height: 100px;
   width: 60px;
 }
+.container {
+  width: 90%;
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 .dealer-cards,
 .player-cards {
   display: flex;
+  height: 300px;
+  width: 50%;
+}
+button {
+  height: 40px;
+  width: 100px;
+  margin: 15px;
+  background-color: #fff;
+  color: #f33f8a;
+  border-radius: 5px;
+  border: 3px solid #f33f8a;
+  font-weight: bold;
+}
+button:hover {
+  /* box-shadow: inset 0px 0px 15px #f33f8a; */
+  box-shadow: 0px 0px 5px 8px rgba(243, 63, 138, 0.35),
+    inset 0px 0px 15px #f33f8a;
+}
+.scoreHidden {
+  display: none;
+}
+
+.buttonsInterface {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  margin: auto;
 }

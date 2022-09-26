@@ -77,19 +77,23 @@ function App() {
       }
       if (dealerScore <= 21 && dealerScore >= 17) {
         if (dealerScore > playerScore) {
-          console.log("Dealer wins");
-          alert("Dealer Wins");
+          setMessage("Dealer Wins!");
+          // alert("Dealer Wins");
         }
         if (dealerScore < playerScore) {
-          alert("Player Wins");
+          setMessage("Player Wins!");
+          // alert("Player Wins");
         }
         if (dealerScore === playerScore) {
-          alert("It's a Tie");
+          setMessage("It's a Tie");
+          // alert("It's a Tie");
         }
       } else if (dealerScore > 21) {
-        alert("Dealer Busted");
+        setMessage("Dealer Busted");
+        // alert("Dealer Busted");
       } else if (dealerScore === 21) {
-        alert("Blck Jack : DealerWins");
+        setMessage("Black Jack : DealerWins");
+        // alert("Blck Jack : DealerWins");
       }
     }
   }, [dealerTurn, dealerScore, playerScore]);
@@ -97,8 +101,12 @@ function App() {
   // updating isPlayerBusted
   useEffect(() => {
     if (playerScore > 21) {
-      alert("player Busted");
+      setMessage("Player Busted!");
+      // alert("player Busted");
       setIsPlayerBusted(true);
+    } else if (playerScore === 21) {
+      setMessage("Black Jack ");
+      setDealerTurn(true);
     }
   }, [playerScore]);
 
@@ -165,6 +173,9 @@ function App() {
       <button onClick={startGame}>Start Game</button>
       <button onClick={hold}>Hold</button>
       <button onClick={hit}>Hit</button>
+      <div className="message">
+        <h1>{message}</h1>
+      </div>
       <div className="player-cards">
         {playerCards.map((card, index) => (
           <Card key={index} currentCard={card} />

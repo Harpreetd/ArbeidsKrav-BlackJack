@@ -13,7 +13,6 @@ function App() {
 
   // two carsd to Player
   const [playerCards, setPlayerCards] = useState([]);
-  console.log("player cards before start" + playerCards);
 
   // score for player
   const [playerScore, setPlayerScore] = useState(0);
@@ -38,13 +37,13 @@ function App() {
     setAceCount(0);
   }, []);
 
-  useEffect(() => {
-    console.log("Dealer cards", dealerCards);
-  }, [dealerCards]);
+  // useEffect(() => {
+  //   console.log("Dealer cards", dealerCards);
+  // }, [dealerCards]);
 
-  useEffect(() => {
-    console.log("Player cards", playerCards);
-  }, [playerCards]);
+  // useEffect(() => {
+  //   console.log("Player cards", playerCards);
+  // }, [playerCards]);
 
   // updating player score
   useEffect(() => {
@@ -161,27 +160,33 @@ function App() {
       <h1>BlackJack</h1>
       <div className="container">
         <div className="dealer-cards">
-          <p className="scoreHidden">
-            <Score currentScore={dealerScore} />
-          </p>
-          {dealerCards.map((card, index) => (
-            <Card key={index} currentCard={card} />
-          ))}
+          <div>
+            <h3>Dealer's Hand</h3>
+          </div>
+
+          <Score currentScore={dealerScore} />
+          {/* className="scoreHidden" */}
+          <div className="cards-container">
+            {dealerCards.map((index, cardValue) => (
+              <Card key={cardValue} cardImage={index.cardImage} />
+            ))}
+          </div>
         </div>
         <div className="player-cards">
-          {playerCards.map((card, index) => (
-            <Card key={index} currentCard={card} />
-          ))}
-          <p>
-            <Score currentScore={playerScore} />
-          </p>
+          <h3>Your Hand</h3>
+          <Score currentScore={playerScore} />
+          <div className="cards-container">
+            {playerCards.map((index, cardValue) => (
+              <Card key={cardValue} cardImage={index.cardImage} />
+            ))}
+          </div>
         </div>
       </div>
       <div>
         <h1 className="neonText">{message}</h1>
       </div>
       <div className="buttonsInterface">
-        <button onClick={startGame}>Start Game</button>
+        <button onClick={startGame}>Start</button>
         <button onClick={hold}>Hold</button>
         <button onClick={hit}>Hit</button>
       </div>
@@ -190,22 +195,3 @@ function App() {
 }
 
 export default App;
-
-// console.log(shuffleDeck);
-// const freshDeck = deck.cards.map((card) => {
-//   let newCard = card.cardName + card.cardFace + card.cardValue;
-//   return newCard;
-// });
-
-// const freshDeck = deck.cards;
-// console.log(freshDeck);
-
-// creating a random shuffled deck
-// const [shuffleDeck, setShuffleDeck] = useState(freshDeck);
-// console.log(shuffleDeck); //here it gives an array with 52 cards
-// // useEffect to check shuffle deck update
-// useEffect(() => {
-//   if (shuffleDeck.length > 0) {
-//     console.log("Shuffled Deck : " + shuffleDeck);
-//   }
-// }, [shuffleDeck]);

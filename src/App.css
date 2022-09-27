@@ -14,15 +14,21 @@ img {
   width: 90%;
   margin: 0 auto;
   display: flex;
+
   justify-content: center;
   align-items: center;
 }
 .dealer-cards,
 .player-cards {
   display: flex;
-  justify-content: center;
-  height: 250px;
+  flex-direction: column;
+  /* justify-content: center; */
+  /* height: 250px; */
   width: 50%;
+}
+.cards-container {
+  display: flex;
+  flex-direction: row;
 }
 .cardImage {
   box-shadow: 0 0 20px 5px #396ec8;

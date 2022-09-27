@@ -108,9 +108,13 @@ function App() {
     if (playerScore > 21) {
       setIsPlayerBusted(true);
       // setDealerTurn(false);
+      setDisableHit(true);
+      setDisableHold(true);
     } else if (playerScore === 21) {
       setMessage("Black Jack ");
       setDealerTurn(true);
+      setDisableHit(true);
+      setDisableHold(true);
     }
   }, [playerScore]);
 

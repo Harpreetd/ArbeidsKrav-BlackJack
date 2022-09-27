@@ -32,6 +32,10 @@ function App() {
   // state for winner or busted msg
   const [message, setMessage] = useState("");
 
+  // state for disabling buttons
+  const [disableHit, setDisableHit] = useState(true);
+  const [disableHold, setDisableHold] = useState(true);
+
   useEffect(() => {
     console.log(shuffleDeck);
     setAceCount(0);
@@ -75,40 +79,41 @@ function App() {
         }, 600);
       }
       if (dealerScore < 21 && dealerScore >= 17) {
-        if (dealerScore > playerScore) {
+        if (dealerScore > playerScore && dealerScore <= 21) {
           setMessage("Dealer Wins!");
-        } else if (dealerScore < playerScore && dealerScore < 21) {
+        } else if (dealerScore < playerScore && playerScore <= 21) {
           setMessage("You Win!");
         }
         if (dealerScore === playerScore) {
           setMessage("It's a Tie!!!");
         }
       } else if (dealerScore > 21 && playerScore <= 21) {
-        setMessage("Dealer Busted");
+        setMessage("Dealer Busted : You Win!!!");
       } else if (dealerScore === 21) {
         setMessage("Black Jack : DealerWins");
       }
     }
   }, [dealerTurn, dealerScore, playerScore]);
 
+  //useEffect for dealer and player card to 0 if player or  dealer busted
+  useEffect(() => {
+    if (isPlayerBusted === true) {
+      setMessage("You Busted!  Start again");
+      // setDealerCards([]);
+      // setPlayerCards([]);
+    }
+  }, [isPlayerBusted]);
   // updating isPlayerBusted
   useEffect(() => {
-    if (playerScore > 21 && !dealerTurn) {
-      setMessage("You Busted!");
+    if (playerScore > 21) {
       setIsPlayerBusted(true);
+      // setDealerTurn(false);
     } else if (playerScore === 21) {
       setMessage("Black Jack ");
       setDealerTurn(true);
     }
   }, [playerScore]);
 
-  //useEffect for dealer and player card to 0 if player or  dealer busted
-  useEffect(() => {
-    if (isPlayerBusted === true) {
-      setDealerCards([]);
-      setPlayerCards([]);
-    }
-  }, [isPlayerBusted]);
   // function for calculating the score
 
   const getScore = (cardArray) => {
@@ -138,6 +143,9 @@ function App() {
     setPlayerCards(() => [...shuffleDeck.splice(0, 2)]);
     setMessage("");
     setDealerTurn(false);
+    setDisableHit(false);
+    setDisableHold(false);
+    setIsPlayerBusted(false);
   };
   // function for dealing card
   const dealCard = (cardArray) => {
@@ -148,6 +156,7 @@ function App() {
   const hold = () => {
     console.log("Holding...");
     setDealerTurn(true);
+    setDisableHit(true);
   };
   // onClick fucntion for HIT
   const hit = () => {
@@ -172,6 +181,9 @@ function App() {
             ))}
           </div>
         </div>
+        <div>
+          <h1 className="neonText">{message}</h1>
+        </div>
         <div className="player-cards">
           <h3>Your Hand</h3>
           <Score currentScore={playerScore} />
@@ -182,13 +194,15 @@ function App() {
           </div>
         </div>
       </div>
-      <div>
-        <h1 className="neonText">{message}</h1>
-      </div>
+
       <div className="buttonsInterface">
         <button onClick={startGame}>Start</button>
-        <button onClick={hold}>Hold</button>
-        <button onClick={hit}>Hit</button>
+        <button onClick={hold} disabled={disableHold}>
+          Hold
+        </button>
+        <button onClick={hit} disabled={disableHit}>
+          Hit
+        </button>
       </div>
     </div>
   );

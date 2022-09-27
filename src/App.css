@@ -23,17 +23,17 @@ img {
   display: flex;
   flex-direction: column;
   /* justify-content: center; */
-  /* height: 250px; */
-  width: 50%;
+  height: 400px;
+  width: 40%;
 }
 .cards-container {
   display: flex;
   flex-direction: row;
+  flex-wrap: wrap;
 }
 .cardImage {
   box-shadow: 0 0 20px 5px #396ec8;
-  margin: 0 8px;
-
+  margin: 4px 8px;
   transition: all 0.2s ease-in-out;
 }
 .cardImage:hover {

@@ -1,5 +1,4 @@
 import "./App.css";
-// import deck from "./Deck.json";
 import { useDeck } from "./useDeck.js";
 import { useState, useEffect } from "react";
 import Card from "../src/components/Card.jsx";
@@ -8,64 +7,52 @@ function App() {
   // getting a shuffled deck
   const [shuffleDeck, setShuffleDeck] = useDeck();
 
-  // one card to dealer
   const [dealerCards, setDealerCards] = useState([]);
 
-  // two carsd to Player
   const [playerCards, setPlayerCards] = useState([]);
 
-  // score for player
   const [playerScore, setPlayerScore] = useState(0);
 
-  // Score for Dealer
   const [dealerScore, setDealerScore] = useState(0);
 
-  // state for dealers turn
   const [dealerTurn, setDealerTurn] = useState(false);
 
-  // state for count of Ace
   const [aceCount, setAceCount] = useState(0);
-
-  // state for playerBusted
   const [isPlayerBusted, setIsPlayerBusted] = useState(false);
-
-  // state for winner or busted msg
+  const [didPlayerWon, setDidPlayerWon] = useState(false);
   const [message, setMessage] = useState("");
 
   // state for disabling buttons
   const [disableHit, setDisableHit] = useState(true);
   const [disableHold, setDisableHold] = useState(true);
-
+  const [highScore, setHighScore] = useState([]);
+  // const [items, setItems] = useState([]);
   useEffect(() => {
-    console.log(shuffleDeck);
-    setAceCount(0);
-  }, []);
+    // console.log(highScore);
+    if (didPlayerWon) {
+      console.log(highScore);
+      localStorage.setItem("score", JSON.stringify(highScore));
+    }
+  }, [didPlayerWon, playerScore]);
 
   // useEffect(() => {
-  //   console.log("Dealer cards", dealerCards);
-  // }, [dealerCards]);
-
-  // useEffect(() => {
-  //   console.log("Player cards", playerCards);
-  // }, [playerCards]);
+  //   setAceCount(0);
+  // }, []);
 
   // updating player score
   useEffect(() => {
-    let newScore = playerCards.map((card, i) => {
+    playerCards.map((card, i) => {
       return card.cardValue;
     });
-    console.log("Score", newScore);
-
     setPlayerScore(getScore(playerCards));
-    console.log("player score updated", playerScore);
   }, [playerCards]);
 
   // updating Dealer's score
   useEffect(() => {
-    let newScore = dealerCards.map((card, i) => {
+    dealerCards.map((card, i) => {
       return card.cardValue;
     });
-    console.log("Score", newScore);
+
     setDealerScore(getScore(dealerCards));
   }, [dealerCards]);
 
@@ -83,14 +70,19 @@ function App() {
           setMessage("Dealer Wins!");
         } else if (dealerScore < playerScore && playerScore <= 21) {
           setMessage("You Win!");
+          setHighScore((prev) => [...prev, playerScore]);
+
+          setDidPlayerWon(true);
         }
         if (dealerScore === playerScore) {
           setMessage("It's a Tie!!!");
         }
       } else if (dealerScore > 21 && playerScore <= 21) {
         setMessage("Dealer Busted : You Win!!!");
+        setDidPlayerWon(true);
       } else if (dealerScore === 21) {
         setMessage("Black Jack : DealerWins");
+        setDidPlayerWon(false);
       }
     }
   }, [dealerTurn, dealerScore, playerScore]);
@@ -99,8 +91,6 @@ function App() {
   useEffect(() => {
     if (isPlayerBusted === true) {
       setMessage("You Busted!  Start again");
-      // setDealerCards([]);
-      // setPlayerCards([]);
     }
   }, [isPlayerBusted]);
   // updating isPlayerBusted
@@ -110,8 +100,9 @@ function App() {
       // setDealerTurn(false);
       setDisableHit(true);
       setDisableHold(true);
-    } else if (playerScore === 21) {
-      setMessage("Black Jack ");
+    } else if (playerScore === 21 && dealerScore > 21) {
+      setMessage("Black Jack : You Win! ");
+      setDidPlayerWon(true);
       setDealerTurn(true);
       setDisableHit(true);
       setDisableHold(true);
@@ -125,14 +116,12 @@ function App() {
 
     for (let i = 0; i < cardArray.length; i++) {
       if (cardArray[i].cardName === "A" && aceCount === 0) {
-        console.log(cardArray[i].cardValue[0]);
         totalScore += cardArray[i].cardValue[0];
         setAceCount(aceCount + 1);
       } else if (cardArray[i].cardName === "A" && aceCount !== 0) {
         totalScore += cardArray[i].cardValue[1];
       } else {
         totalScore += cardArray[i].cardValue;
-        console.log("Score", totalScore);
       }
     }
     return totalScore;
@@ -140,16 +129,14 @@ function App() {
 
   // onClick function on Start game Button
   const startGame = () => {
-    console.log("Starting game...");
-    // console.log(shuffleDeck);
     setDealerCards(() => [...shuffleDeck.splice(0, 1)]);
-    // setDealerCards(dealCard(dealerCards));
     setPlayerCards(() => [...shuffleDeck.splice(0, 2)]);
     setMessage("");
     setDealerTurn(false);
     setDisableHit(false);
     setDisableHold(false);
     setIsPlayerBusted(false);
+    setAceCount(0);
   };
   // function for dealing card
   const dealCard = (cardArray) => {
@@ -158,14 +145,13 @@ function App() {
 
   // onClick function for Hold Button
   const hold = () => {
-    console.log("Holding...");
     setDealerTurn(true);
     setDisableHit(true);
   };
   // onClick fucntion for HIT
   const hit = () => {
-    console.log("Hitting...");
     setPlayerCards(dealCard(playerCards));
+    setDisableHold(false);
   };
 
   return (
@@ -187,6 +173,7 @@ function App() {
         </div>
         <div>
           <h1 className="neonText">{message}</h1>
+          <p>{highScore}</p>
         </div>
         <div className="player-cards">
           <h3>Your Hand</h3>

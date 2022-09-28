@@ -25,13 +25,13 @@ function App() {
   // state for disabling buttons
   const [disableHit, setDisableHit] = useState(true);
   const [disableHold, setDisableHold] = useState(true);
-  const [highScore, setHighScore] = useState([]);
+  const [highScores, setHighScores] = useState([]);
   // const [items, setItems] = useState([]);
   useEffect(() => {
     // console.log(highScore);
     if (didPlayerWon) {
-      console.log(highScore);
-      localStorage.setItem("score", JSON.stringify(highScore));
+      console.log(highScores);
+      localStorage.setItem("score", JSON.stringify(highScores));
     }
   }, [didPlayerWon, playerScore]);
 
@@ -70,7 +70,7 @@ function App() {
           setMessage("Dealer Wins!");
         } else if (dealerScore < playerScore && playerScore <= 21) {
           setMessage("You Win!");
-          setHighScore((prev) => [...prev, playerScore]);
+          setHighScores((prev) => [...prev, playerScore]);
 
           setDidPlayerWon(true);
         }
@@ -97,12 +97,12 @@ function App() {
   useEffect(() => {
     if (playerScore > 21) {
       setIsPlayerBusted(true);
-      // setDealerTurn(false);
+      setDealerTurn(false);
       setDisableHit(true);
       setDisableHold(true);
-    } else if (playerScore === 21 && dealerScore > 21) {
-      setMessage("Black Jack : You Win! ");
-      setDidPlayerWon(true);
+    } else if (playerScore === 21 && !dealerTurn) {
+      setMessage("Black Jack  ");
+      // setDidPlayerWon(true);
       setDealerTurn(true);
       setDisableHit(true);
       setDisableHold(true);
@@ -173,7 +173,11 @@ function App() {
         </div>
         <div>
           <h1 className="neonText">{message}</h1>
-          <p>{highScore}</p>
+        </div>
+        <div>
+          {highScores.map((highScore) => (
+            <li>{highScore}</li>
+          ))}
         </div>
         <div className="player-cards">
           <h3>Your Hand</h3>

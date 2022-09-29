@@ -218,25 +218,25 @@
     },
     {
       "cardName": "A",
-      "cardValue": [11, 1],
+      "cardValue": 11,
       "cardImage": "./images/A-Hearts.png",
       "cardFace": "Hearts"
     },
     {
       "cardName": "A",
-      "cardValue": [11, 1],
+      "cardValue": 11,
       "cardImage": "./images/A-Diamonds.png",
       "cardFace": "Diamonds"
     },
     {
       "cardName": "A",
-      "cardValue": [11, 1],
+      "cardValue": 11,
       "cardImage": "./images/A-Spades.png",
       "cardFace": "Spades"
     },
     {
       "cardName": "A",
-      "cardValue": [11, 1],
+      "cardValue": 11,
       "cardImage": "./images/A-Clubs.png",
       "cardFace": "Clubs"
     },

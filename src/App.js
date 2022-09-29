@@ -1,12 +1,15 @@
 import "./App.css";
+
 import { useDeck } from "./useDeck.js";
 import { useState, useEffect } from "react";
 import Card from "../src/components/Card.jsx";
 import Score from "../src/components/Score.jsx";
+
 function App() {
   // getting a shuffled deck
-  const [shuffleDeck, setShuffleDeck] = useDeck();
 
+  const [shuffleDeck, setShuffleDeck] = useDeck([]);
+  console.log(shuffleDeck.length);
   const [dealerCards, setDealerCards] = useState([]);
 
   const [playerCards, setPlayerCards] = useState([]);
@@ -26,18 +29,26 @@ function App() {
   const [disableHit, setDisableHit] = useState(true);
   const [disableHold, setDisableHold] = useState(true);
   const [highScores, setHighScores] = useState([]);
-  // const [items, setItems] = useState([]);
+
   useEffect(() => {
-    // console.log(highScore);
+    if (playerCards.length > 2) {
+      setShuffleDeck((prev) => [...prev, ...shuffleDeck]);
+    }
+  }, [playerCards]);
+
+  useEffect(() => {
     if (didPlayerWon) {
       console.log(highScores);
       localStorage.setItem("score", JSON.stringify(highScores));
     }
   }, [didPlayerWon, playerScore]);
 
-  // useEffect(() => {
-  //   setAceCount(0);
-  // }, []);
+  useEffect(() => {
+    const highscore = JSON.parse(localStorage.getItem("score"));
+    if (highscore) {
+      setHighScores(highscore);
+    }
+  }, []);
 
   // updating player score
   useEffect(() => {
@@ -68,7 +79,11 @@ function App() {
       if (dealerScore < 21 && dealerScore >= 17) {
         if (dealerScore > playerScore && dealerScore <= 21) {
           setMessage("Dealer Wins!");
-        } else if (dealerScore < playerScore && playerScore <= 21) {
+        } else if (
+          dealerTurn &&
+          dealerScore < playerScore &&
+          playerScore <= 21
+        ) {
           setMessage("You Win!");
           setHighScores((prev) => [...prev, playerScore]);
 
@@ -87,12 +102,12 @@ function App() {
     }
   }, [dealerTurn, dealerScore, playerScore]);
 
-  //useEffect for dealer and player card to 0 if player or  dealer busted
   useEffect(() => {
     if (isPlayerBusted === true) {
       setMessage("You Busted!  Start again");
     }
   }, [isPlayerBusted]);
+
   // updating isPlayerBusted
   useEffect(() => {
     if (playerScore > 21) {
@@ -115,15 +130,19 @@ function App() {
     let totalScore = 0;
 
     for (let i = 0; i < cardArray.length; i++) {
-      if (cardArray[i].cardName === "A" && aceCount === 0) {
-        totalScore += cardArray[i].cardValue[0];
-        setAceCount(aceCount + 1);
-      } else if (cardArray[i].cardName === "A" && aceCount !== 0) {
-        totalScore += cardArray[i].cardValue[1];
-      } else {
-        totalScore += cardArray[i].cardValue;
-      }
+      totalScore += cardArray[i].cardValue;
     }
+    cardArray.forEach((card) => {
+      if (card.cardName === "A") {
+        if (aceCount === 0 && totalScore > 21) {
+          totalScore -= 10;
+        } else if (aceCount !== 0 && totalScore < 21) {
+          return totalScore;
+        }
+
+        return totalScore;
+      }
+    });
     return totalScore;
   };
 
@@ -131,6 +150,7 @@ function App() {
   const startGame = () => {
     setDealerCards(() => [...shuffleDeck.splice(0, 1)]);
     setPlayerCards(() => [...shuffleDeck.splice(0, 2)]);
+    // setShuffleDeck((shuffleDeck) => [...shuffleDeck, shuffleDeck]);
     setMessage("");
     setDealerTurn(false);
     setDisableHit(false);
@@ -153,6 +173,9 @@ function App() {
     setPlayerCards(dealCard(playerCards));
     setDisableHold(false);
   };
+  // function refreshPage() {
+  //   window.App.reload(false);
+  // }
 
   return (
     <div className="App">
@@ -174,11 +197,7 @@ function App() {
         <div>
           <h1 className="neonText">{message}</h1>
         </div>
-        <div>
-          {highScores.map((highScore) => (
-            <li>{highScore}</li>
-          ))}
-        </div>
+
         <div className="player-cards">
           <h3>Your Hand</h3>
           <Score currentScore={playerScore} />
@@ -187,6 +206,12 @@ function App() {
               <Card key={cardValue} cardImage={index.cardImage} />
             ))}
           </div>
+        </div>
+        <div>
+          <h4>Your Highscore</h4>
+          {highScores.map((score) => {
+            return <li>{score}</li>;
+          })}
         </div>
       </div>
 
@@ -198,6 +223,7 @@ function App() {
         <button onClick={hit} disabled={disableHit}>
           Hit
         </button>
+        {/* <button onClick={refreshPage}>Refresh</button> */}
       </div>
     </div>
   );

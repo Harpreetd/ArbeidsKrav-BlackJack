@@ -39,10 +39,9 @@ function App() {
     }
   }, [playerCards]);
 
-  //  saving Highscore of the player
+  //  saving Highscore of the player in LocalStorage
   useEffect(() => {
     if (didPlayerWon) {
-      console.log(highScores);
       localStorage.setItem("score", JSON.stringify(highScores));
     }
   }, [didPlayerWon, playerScore]);
@@ -208,7 +207,6 @@ function App() {
             return <li key={i}>{score}</li>;
           })}
         </div>
-        
       </div>
 
       <div className="buttonsInterface">
